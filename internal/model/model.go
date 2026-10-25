@@ -17,4 +17,5 @@ var (
 	ErrMissingFile      = errors.New("pgm: файл применённой миграции не найден")
 	ErrChecksumMismatch = errors.New("pgm: контрольная сумма не совпадает")
 	ErrLockTimeout      = errors.New("pgm: не удалось получить блокировку")
+	ErrSource           = errors.New("pgm: не удалось прочитать каталог миграций")
 )

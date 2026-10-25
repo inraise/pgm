@@ -11,4 +11,5 @@ var (
 	ErrMissingFile      = model.ErrMissingFile
 	ErrChecksumMismatch = model.ErrChecksumMismatch
 	ErrLockTimeout      = model.ErrLockTimeout
+	ErrSource           = model.ErrSource
 )

@@ -283,3 +283,26 @@ func TestLockReleasedWhenConnectionDies(t *testing.T) {
 	_ = unlock2()
 	_ = unlock1()
 }
+
+func TestLockCanceledWhileWaiting(t *testing.T) {
+	db := testutil.NewDB(t)
+	s1, s2 := NewPostgres(db), NewPostgres(db)
+	s2.poll = 20 * time.Millisecond
+
+	unlock1, err := s1.Lock(ctx, time.Second)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer unlock1()
+
+	waitCtx, cancel := context.WithTimeout(ctx, 100*time.Millisecond)
+	defer cancel()
+	start := time.Now()
+	_, err = s2.Lock(waitCtx, 10*time.Second)
+	if !errors.Is(err, context.DeadlineExceeded) {
+		t.Fatalf("ожидалась DeadlineExceeded, получено: %v", err)
+	}
+	if time.Since(start) > 2*time.Second {
+		t.Error("отмена контекста не прервала ожидание блокировки")
+	}
+}

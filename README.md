@@ -16,7 +16,7 @@
 
 ## Установка
 
-Нужны Go 1.22 или новее и PostgreSQL.
+Нужны Go 1.26 или новее и PostgreSQL.
 
 ```
 go install github.com/inraise/pgm/cmd/pgm@latest   # утилита
